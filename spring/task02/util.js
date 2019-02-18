@@ -363,11 +363,11 @@ function setCookie(cookieName, cookieValue, expiredays) {
 function getCookie(cookieName) {
 	var name = cookieName + "=";
 	var cache = document.cookie.split(';');
-	for(let i=0; i < cache.length; i++){
-	  var cv = cache[i].trim();
-	  if (cv.indexOf(name) === 0) {
-		return cv.substring(name.length, cv.length);
-	  }
+	for (let i = 0; i < cache.length; i++) {
+		var cv = cache[ i ].trim();
+		if (cv.indexOf(name) === 0) {
+			return cv.substring(name.length, cv.length);
+		}
 	}
 	return "";
 }
@@ -387,7 +387,25 @@ function getCookie(cookieName) {
 // onsuccess: 成功时的调用函数
 // onfail: 失败时的调用函数
 function ajax(url, options) {
-	// your implement
+	let type, data, successFn, errorFn;
+
+	type = options.type ? options.type.toUpperCase() : 'GET';
+	data = JSON.stringify(options.data).replace(/":"/g, '=').replace(/","/g,'&').slice(2,-2);
+
+	successFn = option.onsuccess ? option.onsuccess : null;
+	errorFn = option.onfail ? option.onfail : null;
+
+	var xhr = new XMLHttpRequest();
+	xhr.open(type, url, true);
+	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 304)) {
+			successFn && successFn.call(this, xhr.responseText, xhr);
+		}else{
+			errorFn && errorFn();
+		}
+	};
+	xhr.send(data);
 }
 
 // 使用示例：
@@ -403,5 +421,3 @@ ajax(
 		}
 	}
 );
-
-// 
