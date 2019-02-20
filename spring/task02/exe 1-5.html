@@ -5,24 +5,94 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>BIFE2015 Spring Task2</title>
+  <style>
+    ul{
+      margin: 0px;
+      padding: 0px;
+    }
+    li{
+      list-style: none;
+    }
+
+    .Exe3{
+      display: flex;
+      justify-content: center;
+      background: yellow;
+    }
+    .Exe3_Father{
+      width: 400px;
+      height: 300px;
+      overflow: hidden;
+      position: relative;
+    }
+    .Exe3_Tab{
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .Exe3_Tab li{
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #fff;
+      float: left;
+      margin-right: 10px;
+      opacity: 0.5;
+    }
+    .Exe3_Tab .active{
+      opacity: 1;
+    }
+    .Exe3_Run{
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 2400px;
+    }
+    .Exe3_Run img{
+      float: left;
+    }
+  </style>
 </head>
 <body>
+
   <!-- 练习1 -->
-  <input type="text" class="Inp1">
-  <button class="Btn1">按钮1</button>
+  <div class="Exe1">
+    <input type="text" class="Inp1">
+    <input type="text" class="Inp3">
+    <textarea name="text" class="Inp2" id="" cols="20" rows="5"></textarea>
+    <button class="Btn1">按钮1</button>
+    <button class="Btn2">按钮2</button>
+    <button class="Btn3">按钮3</button>
+  </div>
 
-  <br>
-
-  <textarea name="text" class="Inp2" id="" cols="30" rows="10"></textarea>
-  <button class="Btn2">按钮2</button>
-
-  <br>
-
- 
   <!-- 练习2 -->
-
+  <div class="Exe2">
+    <input type="date" class="Inp4">
+    <button class="Btn4">按钮4</button>
+  </div>
 
   <div class="showPlace"></div>
+
+  <div class="Exe3">
+    <div class="Exe3_Father">
+      <div class="Exe3_Run">
+        <img width="400px" height="300px" src="./source/1.jpeg" alt="">
+        <img width="400px" height="300px" src="./source/2.jpeg" alt="">
+        <img width="400px" height="300px" src="./source/3.jpeg" alt="">
+        <img width="400px" height="300px" src="./source/4.jpeg" alt="">
+        <img width="400px" height="300px" src="./source/5.jpeg" alt="">
+        <img width="400px" height="300px" src="./source/1.jpeg" alt="">
+      </div>
+      <ul class="Exe3_Tab">
+        <li class="active"></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+  </div>
 
   <script src="./util.js"></script>
   <script src="./exe 1-5.js"></script>

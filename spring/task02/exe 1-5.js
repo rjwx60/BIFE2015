@@ -37,6 +37,49 @@ addClickEvent(Btn1, () => {
 // 每一秒钟更新倒计时上显示的数
 // 如果时差为0，则倒计时停止
 
+var Btn4 = $('.Btn4');
+
+addClickEvent(Btn4, () => {
+  var Inp4 = $('.Inp4');
+  var initTime = new Date(`${Inp4.value.split('-').map(cv => parseInt(cv)).join('-')}`).getTime();
+
+  // 初始显示
+  timeOperate(initTime - Date.now());
+  // 后续显示
+  refreshTime(initTime);
+})
+
+function refreshTime(futureTime){
+  let minValue;
+
+  clearInterval(timer);
+  
+  var timer = setInterval(() => {
+    minValue = futureTime - Date.now();
+    if(minValue <= 0){
+      $('.showPlace').innerHTML = '';
+      clearInterval(timer);
+    }else{
+      timeOperate(minValue);
+    }
+  }, 1000);
+}
+function timeOperate(minValue){
+  let day = parseInt(minValue / 1000 / 60 / 60 / 24 ),
+      hour = minValue / 1000 / 60 / 60,
+      minute = minValue / 1000 / 60;
+      second = minValue  / 1000;
+
+  let obj ={
+    day: day,
+    hour: parseInt(hour - day * 24),
+    minute: parseInt(minute - parseInt(hour) * 60),
+    second: parseInt(second - parseInt(minute) * 60),
+  };
+
+  $('.showPlace').innerHTML = `${obj.day} ${obj.hour} ${obj.minute} ${obj.second}`;
+}
+
 
 // 练习3:
 // 实现一个轮播图的功能。
@@ -45,6 +88,30 @@ addClickEvent(Btn1, () => {
 // 图片切换的动画要流畅
 // 在轮播图下方自动生成对应图片的小点，点击小点，轮播图自动动画切换到对应的图片
 
+window.onload = function(){
+  var Exe3Run = $('.Exe3_Run'), tag = 0;
+
+  function AnimationRun(){
+    let timer = null;
+    console.log(window.getComputedStyle(Exe3Run).width);
+    clearInterval(timer);
+    timer = setInterval(() => {
+      tag+=5;
+      Exe3Run.style.setProperty('left', `-${tag}px`);
+      if(tag === 2000){
+        Exe3Run.style.setProperty('left', `0px`);
+        tag = 0;
+      }
+      if(tag % 400 === 0){
+        clearInterval(timer);
+        setTimeout(function(){
+          AnimationRun();
+        },1000)
+      }
+    }, 10);
+  }
+  AnimationRun();
+}
 
 // 练习4：
 // 实现一个类似百度搜索框的输入提示的功能，使用Ajax来获取提示数据。
