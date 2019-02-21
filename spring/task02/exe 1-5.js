@@ -91,15 +91,17 @@ function timeOperate(minValue){
 window.onload = function(){
   var Exe3Run = $('.Exe3_Run'), tag = 0;
 
-  function AnimationRun(){
-    let timer = null;
-    console.log(window.getComputedStyle(Exe3Run).width);
+  function AnimationRun(speed, direction){
+    let timer = null, direct = direction ? '-' : '';
+    // console.log(window.getComputedStyle(Exe3Run).width);
     clearInterval(timer);
     timer = setInterval(() => {
-      tag+=5;
-      Exe3Run.style.setProperty('left', `-${tag}px`);
+      tag += speed;
+      Exe3Run.style.setProperty('left', `${direct}${tag}px`);
       if(tag === 2000){
+        
         Exe3Run.style.setProperty('left', `0px`);
+
         tag = 0;
       }
       if(tag % 400 === 0){
@@ -110,7 +112,7 @@ window.onload = function(){
       }
     }, 10);
   }
-  AnimationRun();
+  AnimationRun(5, false);
 }
 
 // 练习4：
