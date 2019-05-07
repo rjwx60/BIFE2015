@@ -69,6 +69,8 @@ addClickEvent(Btn3, () => {
   Exe1.appendChild(div);
 });
 
+
+
 // 练习2:
 // 实现一个倒计时功能。
 
@@ -125,39 +127,107 @@ function timeOperate(minValue) {
   }`;
 }
 
+
+
+
 // 练习3:
 // 实现一个轮播图的功能。
+
 // 图片数量及URL均在HTML中写好
 // 可以配置轮播的顺序（正序、逆序）、是否循环、间隔时长
 // 图片切换的动画要流畅
 // 在轮播图下方自动生成对应图片的小点，点击小点，轮播图自动动画切换到对应的图片
 
 window.onload = function() {
-  var Exe3Run = $(".Exe3_Run"),
-    tag = 0;
 
-  function AnimationRun(speed, direction) {
-    let timer = null,
-      direct = direction ? "-" : "";
-    // console.log(window.getComputedStyle(Exe3Run).width);
+  var Exe3Run = $(".Exe3_Run"),
+      Exe3_Tab = $(".Exe3_Tab"),
+      Exe3_Tab_List = Exe3_Tab.querySelectorAll('li'),
+      tag = 0,
+      timer = null,
+      clickFlag = true,
+      activeTag = 0,
+      originPos = '0',
+      direct = '-';
+
+  // 初始延迟显示
+  AnimationRun(10, true, true);
+
+  // 轮播动画
+  function AnimationRun(speed, direction, loop) {
+    // 清除缓存
     clearInterval(timer);
+    // 控制方向
+    direct = direction ? "-" : "";
+    // 起始位置 - 仅初始化时执行1次
+    originPos = direction ? "0" : "-2000";
+
+    if(clickFlag){
+      Exe3Run.style.setProperty("left", `${originPos}px`);
+      // 圆点倒序排列
+      Exe3_Tab_List = direction ? Array.from(Exe3_Tab_List).reverse() : Exe3_Tab_List;
+      Exe3_Tab_List[activeTag].classList.add('active');      
+      clickFlag = false;
+    }
+
+    // console.log('tag: ', tag);
+
+    // 控制速度
     timer = setInterval(() => {
       tag += speed;
-      Exe3Run.style.setProperty("left", `${direct}${tag}px`);
+      Exe3Run.style.setProperty("left", `${parseInt(originPos) + parseInt(`${direct}${tag}`)}px`);
+      
+      // 控制终末位置回归
       if (tag === 2000) {
         Exe3Run.style.setProperty("left", `0px`);
-
         tag = 0;
+        // 控制循环
+        if(!loop){
+          clearInterval(timer);
+          return;
+        }
       }
+
+      // 控制停顿
       if (tag % 400 === 0) {
+        activeTag = tag / 400;
+        // 控制圆点的显示
+        cleanClass(Exe3_Tab_List, 'active')
+        Exe3_Tab_List[activeTag].classList.add('active');
+
         clearInterval(timer);
         setTimeout(function() {
-          AnimationRun();
+          AnimationRun(speed, direction, loop);
         }, 1000);
-      }
+      } 
+      
     }, 10);
   }
-  AnimationRun(5, false);
+
+  // 遍历消除特定类
+  function cleanClass(list, styleClass){
+    list.forEach(cv => cv.classList.remove(styleClass));
+  }
+
+  // 点击事件
+  addClickEvent(Exe3_Tab, (e) => {
+    var targetEle = e.target;
+    var index = targetEle.getAttribute('index');
+    cleanClass(Exe3_Tab_List, 'active')
+    targetEle.classList.add('active');
+
+    
+    if(!direct){
+      tag = parseInt(index) * 400;
+    } else {
+      tag = 1600 - parseInt(index) * 400;
+    }
+    if(tag >= 2000){
+      tag = 0;
+    }
+    Exe3Run.style.setProperty("left", `${parseInt(originPos) + parseInt(`${direct}${tag}`)}px`);
+
+  })
 };
 
 // 练习4：
