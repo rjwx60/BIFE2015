@@ -52,10 +52,15 @@
     .Exe3_Run img{
       float: left;
     }
+    .Exe4_list_hidden{
+      display: none;
+    }
+    .Exe4_list_active{
+      background: orange;
+    }
   </style>
 </head>
 <body>
-
   <!-- 练习1 -->
   <div class="Exe1">
     <input type="text" placeholder="按钮1: 逗号分割爱好" class="Inp1">
@@ -67,13 +72,13 @@
     <button class="Btn3">按钮3</button>
   </div>
 
+
   <!-- 练习2 -->
   <div class="Exe2">
     <input type="date" class="Inp4">
     <button class="Btn4">按钮4</button>
+    <div class="showPlace"></div>
   </div>
-
-  <div class="showPlace"></div>
 
 
   <!-- 练习3 -->
@@ -97,11 +102,21 @@
     </div>
   </div>
 
-  <input type="text">
+ 
+  <!-- 练习4 -->
+  <div class="Exe4">
+    <input class="Exe4_input" type="text">
+    <ul class="Exe4_List Exe4_list_hidden">
+      <li index = '1'>test data 1</li>
+      <li index = '2'>test data 2</li>
+      <li index = '3'>test data 3</li>
+      <li index = '4'>test data 4</li>
+    </ul>
+  </div>
 
-  <div class="Exe4"></div>
 
-  <div class="Exe5">
+
+  <!-- <div class="Exe5">
     <div class="Exe5_Father">
       <ul class="Exe5_son1">
         <li>1</li>
@@ -112,7 +127,8 @@
       </ul>
       <ul class="Exe5_son2"></ul>
     </div>
-  </div>
+  </div> -->
+
 
   <script src="./util.js"></script>
   <script src="./exe 1-5.js"></script>

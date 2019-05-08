@@ -230,12 +230,101 @@ window.onload = function() {
   })
 };
 
+
+
+
+
+
+
 // 练习4：
-// 实现一个类似百度搜索框的输入提示的功能，使用Ajax来获取提示数据。
+// 实现一个类似百度搜索框的输入提示的功能，使用Ajax来获取提示数据;
+
 // 要求如下：
 // 允许使用鼠标点击选中提示栏中的某个选项
 // 允许使用键盘上下键来选中提示栏中的某个选项，回车确认选中
 // 选中后，提示内容变更到输入框中
+
+window.onload = function(){
+  var Exe4_Inp = $('.Exe4_input'),
+      Exe4_List = $('.Exe4_List'),
+      li_List = Exe4_List.querySelectorAll('li');
+      count = 0;
+
+    addEvent(Exe4_Inp, 'input', (e) => {
+      // 控制显示隐藏
+      if(!e.target.value) Exe4_List.classList.add('Exe4_list_hidden');
+      Exe4_List.classList.remove('Exe4_list_hidden');
+    })
+
+    window.addEventListener('keydown', (e) => {
+      // 当前聚焦元素非 Exe4_Inp 则静默
+      if(document.activeElement != Exe4_Inp) return;
+      switch(e.keyCode){
+        // 向上键
+        case 38:
+          count--;
+          if(count === -1) count = 4;
+          break;
+        // 向下键
+        case 40:
+          count++;
+          if(count === 5) count = 0;
+          break;
+        // 回车键
+        case 13:
+          Exe4_Inp.value = li_List[count - 1].innerHTML;
+          Exe4_List.classList.add('Exe4_list_hidden');
+          count = 0;
+          break;
+        default:
+          break;
+      }
+
+      cleanClass(li_List, 'Exe4_list_active');
+
+      if(count){
+        li_List[count - 1].classList.add('Exe4_list_active');
+      }
+    })
+
+    Exe4_List.addEventListener('mousemove', (e) => {
+      // 当前聚焦元素非 Exe4_Inp 则静默
+      if(document.activeElement != Exe4_Inp) return;
+      count = +e.target.getAttribute('index');
+
+      // 重复操作
+      cleanClass(li_List, 'Exe4_list_active');
+
+      if(count){
+        li_List[count - 1].classList.add('Exe4_list_active');
+      }
+    })
+
+    Exe4_List.addEventListener('click', (e) => {
+      count = +e.target.getAttribute('index');
+
+      cleanClass(li_List, 'Exe4_list_active');
+
+      Exe4_Inp.value = li_List[count - 1].innerHTML;
+      Exe4_List.classList.add('Exe4_list_hidden');
+      count = 0;
+    })
+
+    // 遍历消除特定类
+    function cleanClass(list, styleClass){
+      list.forEach(cv => cv.classList.remove(styleClass));
+    }
+
+    
+}
+
+
+
+
+
+
+
+
 
 // 练习5：
 // 实现一个可拖拽交互的界面
