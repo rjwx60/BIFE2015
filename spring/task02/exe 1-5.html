@@ -6,6 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>BIFE2015 Spring Task2</title>
   <style>
+    body{
+      position: relative;
+    }
     ul{
       margin: 0px;
       padding: 0px;
@@ -57,6 +60,40 @@
     }
     .Exe4_list_active{
       background: orange;
+    }
+    .Exe5_Father{
+      display: flex;
+      justify-content: center;
+      margin-top: 50px;
+      padding: 50px;
+      background: #ccc;
+    }
+    .Exe5_Father ul{
+      margin: 0 10px;
+      padding: 2px;
+      width: 124px;
+      height: 400px;
+    }
+    .Exe5_Father li{
+      display: inline-block;
+      width: 120px;
+      height: 50px;
+      background: red;
+      margin: 2px;
+      line-height: 50px;
+      text-align: center;
+      font-size: 16px;
+      color: #fff;
+    }
+    .Exe5_son1{
+      display: flex;
+      flex-direction: column;
+      border: 1px #000 solid;
+    }
+    .Exe5_son2{
+      display: flex;
+      flex-direction: column;
+      border: 1px #000 solid;
     }
   </style>
 </head>
@@ -116,18 +153,22 @@
 
 
 
-  <!-- <div class="Exe5">
+  <!-- 练习5 -->
+  <div class="Exe5">
     <div class="Exe5_Father">
       <ul class="Exe5_son1">
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
-        <li>4</li>
-        <li>5</li>
+        <li>A1</li>
+        <li>A2</li>
+        <li>A3</li>
+        <li>A4</li>
+        <li>A5</li>
       </ul>
-      <ul class="Exe5_son2"></ul>
+      <ul class="Exe5_son2">
+        <li>B1</li>
+        <li>B2</li>
+      </ul>
     </div>
-  </div> -->
+  </div>
 
 
   <script src="./util.js"></script>
