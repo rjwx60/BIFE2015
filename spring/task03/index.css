@@ -1,0 +1,50 @@
+body, p{
+  margin: 0px;
+  padding: 0px;
+}
+
+
+
+body{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+
+header{
+  padding: 20px 20px;
+  box-sizing: border-box;
+  background: #ccc;
+}
+
+.head{
+  color: grey;
+  font-size: 16px;
+}
+
+
+section{
+  display: flex;
+  flex-wrap: nowrap;
+  flex: 1;
+}
+
+/* 列表 */
+.list{
+  width: 220px;
+  background: orange;
+}
+
+
+/* 列表详情 */
+.list-detail{
+  width: 220px;
+  background: greenyellow;
+}
+
+/* 列表内容 */
+.list-content{
+  flex: 1;
+  background: white;
+}
