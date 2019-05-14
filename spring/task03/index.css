@@ -48,3 +48,23 @@ section{
   flex: 1;
   background: white;
 }
+
+
+/* 显示相关 */
+ul{
+  display: none;
+}
+dl{
+}
+
+.activedDL{
+}
+.activedTT{
+  display: block;
+}
+.activedDD{
+  background: red;
+}
+.activedTD{
+  background: yellow;
+}
