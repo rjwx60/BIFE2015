@@ -1,8 +1,15 @@
-body, p{
+body, p, dl, dt, dd, ul, li{
   margin: 0px;
   padding: 0px;
 }
-
+li{
+  list-style: none;
+}
+input, button, textarea{
+  border: none;
+  background: none;
+  outline: none;
+}
 
 
 body{
@@ -22,6 +29,11 @@ header{
   color: grey;
   font-size: 16px;
 }
+/* 列表新增按钮 */
+.head-right{
+  display: inline-block;
+  margin-left: 20px;
+}
 
 
 section{
@@ -36,18 +48,101 @@ section{
   background: orange;
 }
 
-
 /* 列表详情 */
 .list-detail{
   width: 220px;
   background: greenyellow;
 }
 
+.list, .list-detail{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-right: 1px rgb(134, 132, 132) solid;
+}
+.list-detail-content p{
+  display: flex;
+  justify-content: space-around;
+  background: #ccc;
+  border-bottom: 1px solid #ccc;
+}
+.list-detail-content p span {
+  font-size: 12px;
+  line-height: 18px;
+  padding: 2px;
+}
+.show-span{
+  background: #fff;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+}
+
+/* 分类、任务新增按钮 */
+.list-bottom, .list-detail-bottom{
+  padding: 10px;
+  box-sizing: border-box;
+  background: #efefef;
+}
+.list-bottom span, .list-detail-bottom span{
+  margin-right: 10px;
+}
+
+
 /* 列表内容 */
-.list-content{
+.detail-content{
   flex: 1;
   background: white;
 }
+.con-header{
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: rgb(235, 233, 233);
+  border-bottom: 1px solid #efefef;
+}
+.con-header input{
+  font-size: 18px;
+  color: #000;
+  font-weight: 600;
+}
+.con-header span{
+  font-size: 25px;
+}
+.con-time{
+  background: rgba(248, 248, 187, 0.6);
+  border-bottom: 1px solid #efefef;
+  padding: 10px 16px;
+}
+.con-time span{
+  font-size: 14px;
+  color: rgb(83, 83, 83);
+  font-weight: 300;
+}
+.con-inner{
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 92px);
+  background: #eee;
+}
+
+.con-inner div{
+  flex: 1;
+  outline: 0; 
+  font-size: 12px; 
+  word-wrap: break-word;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.con-inner textarea{
+  flex: 1;
+  background: #fff;
+}
+
+
+
+
+
+
 
 
 /* 显示相关 */
@@ -55,7 +150,20 @@ ul{
   display: none;
 }
 dl{
+  position: relative;
 }
+.dt-delete{
+  visibility: hidden;
+  position: absolute;
+  width: 30px;
+  right: 0px;
+  text-align: center;
+  line-height: 28px;
+}
+dt:hover .dt-delete{
+  visibility: visible;
+}
+
 
 .activedDL{
 }
