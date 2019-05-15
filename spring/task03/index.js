@@ -2,10 +2,8 @@ window.onload = function() {
 
   // 独立的id
   var id = 12;
-
-  // 缓存数据体
-  var cacheDataObj = null,
-      cacheFlag = true;
+  // 缓存位数
+  var cacheNum = 0;
 
   // 渲染节点
   var listEle = document.querySelector('.list');
@@ -41,11 +39,22 @@ window.onload = function() {
     if (day.length < 2) day = '0' + day;
 
     return [year, month, day].join('-');
-}
+  }
+
+  // 计算某 key 为 value 值的次数
+  const culateKeyValNum = (object, keyVal, value) => {
+    for (var key in object) {
+      if (key == keyVal && object[key] == value) cacheNum++;
+      if (typeof object[key] == "object") {
+        culateKeyValNum(object[key], keyVal, value);
+      }
+    }
+    return cacheNum;
+  }
 
   // 渲染函数
   const render = function(){
-    var resultA = '<div class="list-content">';
+    var resultA = '';
     var resultB = '';
     
     dataObj.forEach(cv => {
@@ -56,7 +65,13 @@ window.onload = function() {
       </dl>`
     });
 
-    listEle.innerHTML = resultA + `</div>
+    cacheNum = 0;
+
+    listEle.innerHTML = `
+    <div class="list-content">
+      <span>总分类 (${culateKeyValNum(dataObj, 'status', false)}) </span>` 
+      + resultA + `
+    </div>
     <div class="list-bottom" add='true'>
       <span class="iconfont icon-add" add='true'></span>
       <span add='true'>新增分类</span>
@@ -79,8 +94,9 @@ window.onload = function() {
     function makeDD(taskList){
       var cache = '';
       taskList.forEach(cv  => {
+        cacheNum = 0;
         resultB += `<ul class="${cv.actived ? 'activedTT' : ''}">${makeTasks(cv.tasks)}</ul>`
-        cache += `<dd index="${cv.id}" class="${cv.actived ? 'activedDD' : ''}">${cv.listName}(${cv.incomplete})</dd>`
+        cache += `<dd index="${cv.id}" class="${cv.actived ? 'activedDD' : ''}">${cv.listName}(${culateKeyValNum(cv.tasks, 'status', false)})</dd>`
       })
       return cache;
     }
@@ -183,18 +199,21 @@ window.onload = function() {
   // 根据完成度排序
   const sortTask = function(type){
     var activedTT = document.querySelector('.activedTT');
-    Array.from(activedTT.children).forEach(cv => {
+    var result = Array.from(activedTT.children).map(cv => {
+      cv.setAttribute('style','position: absolute; clip: rect(1px 1px 1px 1px);')
+      if(type === 1 && /false/.test(cv.getAttribute('status'))){
+        cv.setAttribute('style','')
+      } else if(type === 2 && /true/.test(cv.getAttribute('status')) ){
+        cv.setAttribute('style','')
+      } else if(type === 0){
+        cv.setAttribute('style','')
+      }
+      return cv
     })
-    activedTT.appendChild(Array.from(activedTT.children)[0])
-    // activedTT.children = activedTT.children.filter(cv => {
-    //   if(type === 1){
-
-    //   } else if(type ===2 ){
-    //     return cv.
-    //   } else {
-    //     return cv
-    //   }
-    // })
+    activedTT.innerHTML = '';
+    result.forEach(cv => {
+      activedTT.appendChild(cv)
+    })
   }
 
   // 设置状态
@@ -335,15 +354,23 @@ window.onload = function() {
     // 展示项目 处理 
     } else if(elementShow){
       var type = targetElement.getAttribute('id').split('-')[1];
+      // active 样式
+      Array.from(targetElement.parentNode.children).forEach(cv => {
+        cv.classList.remove('show-span');
+        if(cv.getAttribute('id').split('-')[1] == type){
+          cv.classList.add('show-span');
+        }
+      })
 
+      // 选择显示
       switch(type){
         case 'all':
           sortTask(0);
           break;
-        case 'com':
+        case 'unc':
           sortTask(1);
           break;
-        case 'unc':
+        case 'com':
           sortTask(2);
           break;
       }
@@ -352,6 +379,7 @@ window.onload = function() {
     }
     render();
   }
+
 
   document.documentElement.addEventListener('click', actived);
 
