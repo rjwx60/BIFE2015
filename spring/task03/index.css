@@ -11,23 +11,21 @@ input, button, textarea{
   outline: none;
 }
 
-
 body{
   display: flex;
   flex-direction: column;
   height: 100vh;
 }
 
-
 header{
   padding: 20px 20px;
   box-sizing: border-box;
-  background: #ccc;
-  border-bottom: 1px solid rgb(110, 110, 110);
+  background: #dddddd;
+  border-bottom: 1px solid #cecece;
 }
 
 .head{
-  color: grey;
+  color: #989898;
   font-size: 16px;
 }
 /* 列表新增按钮 */
@@ -46,43 +44,66 @@ section{
 /* 列表 */
 .list{
   width: 220px;
-  background: orange;
+  background: #f2f2f2;
 }
+.list-content > span{
+  display: block;
+  height: 34px;
+  padding: 0 10px;
+  line-height: 30px;
+}
+
 
 /* 列表详情 */
 .list-detail{
   width: 220px;
-  background: greenyellow;
+  background: #ffffff;
 }
 
 .list, .list-detail{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-right: 1px rgb(134, 132, 132) solid;
+  border-right: 2px solid #cdcdcd;
 }
 .list-detail-content p{
-  display: flex;
-  justify-content: space-around;
-  background: #ccc;
-  border-bottom: 1px solid #ccc;
+  height: 34px;
+  line-height: 34px;
+  padding-left: 10px;
+  background: #ededed;
+  border-bottom: 1px solid #cdcdcd;
 }
 .list-detail-content p span {
-  font-size: 12px;
+  display: inline-block;
+  padding: 2px 6px;
   line-height: 18px;
-  padding: 2px;
+  font-size: 12px;
 }
 .show-span{
   background: #fff;
   border-radius: 2px;
-  border: 1px solid #ccc;
+  border: 1px solid #cdcdcd;
+}
+
+.list-detail-content ul span{
+  display: block;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 14px;
+  background: #fafaee;
+}
+.list-detail-content ul li {
+  height: 30px;
+  line-height: 30px;
+  padding: 0 30px;
 }
 
 /* 分类、任务新增按钮 */
 .list-bottom, .list-detail-bottom{
   padding: 10px;
   box-sizing: border-box;
-  background: #efefef;
+  background: #eeeeee;
+  border-top: 2px solid #cdcdcd;
 }
 .list-bottom span, .list-detail-bottom span{
   margin-right: 10px;
@@ -98,7 +119,7 @@ section{
   display: flex;
   justify-content: space-between;
   padding: 10px 16px;
-  background: rgb(235, 233, 233);
+  background: #f2f2f2;
   border-bottom: 1px solid #efefef;
 }
 .con-header input{
@@ -110,9 +131,9 @@ section{
   font-size: 25px;
 }
 .con-time{
-  background: rgba(248, 248, 187, 0.6);
-  border-bottom: 1px solid #efefef;
   padding: 10px 16px;
+  border-bottom: 1px solid #efefef;
+  background: #fafaee;
 }
 .con-time span{
   font-size: 14px;
@@ -125,7 +146,9 @@ section{
   height: calc(100% - 92px);
   background: #eee;
 }
-
+.con-inner textarea{
+  padding: 14px;
+}
 .con-inner div{
   flex: 1;
   outline: 0; 
@@ -152,6 +175,16 @@ ul{
 }
 dl{
   position: relative;
+  height: 30px;
+  overflow: hidden;
+}
+dt, dd{
+  height: 30px;
+  line-height: 30px;
+  padding: 0 10px;
+}
+dd{
+  text-indent: 26px;
 }
 .dt-delete{
   visibility: hidden;
@@ -164,16 +197,16 @@ dl{
 dt:hover .dt-delete{
   visibility: visible;
 }
-
-
-.activedDL{
-}
 .activedTT{
   display: block;
 }
+.activedDL{
+  height: auto;
+  overflow: inherit;
+}
 .activedDD{
-  background: red;
+  background: #fff;
 }
 .activedTD{
-  background: yellow;
+  color: green;
 }

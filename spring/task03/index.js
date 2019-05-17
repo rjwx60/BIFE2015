@@ -1,7 +1,7 @@
 window.onload = function() {
 
   // 独立的id
-  var id = 12;
+  var id = 99;
   // 缓存位数
   var cacheNum = 0;
 
@@ -42,15 +42,47 @@ window.onload = function() {
   }
 
   // 计算某 key 为 value 值的次数
-  const culateKeyValNum = (object, keyVal, value) => {
+  const ckvNum = (object, keyVal, value) => {
     for (var key in object) {
       if (key == keyVal && object[key] == value) cacheNum++;
       if (typeof object[key] == "object") {
-        culateKeyValNum(object[key], keyVal, value);
+        ckvNum(object[key], keyVal, value);
       }
     }
     return cacheNum;
   }
+  const culateKeyValNum = (object, keyVal, value) => {
+    cacheNum = 0;
+    return ckvNum(object, keyVal, value);
+  }
+
+  // 时间排序 设置字段 extra
+  const sortEditTime = (target) => {
+    var cacheTimeValue = '';
+    target.sort((a,b) => {
+      if(a.editDate > b.editDate){
+        return 1;
+      } else if (a.editDate == b.editDate){
+        return 0;
+      } else {
+        return -1
+      }
+    });
+
+    return target.map(cv => {
+      if(!cacheTimeValue) {
+        cv.extra = true;
+        cacheTimeValue = cv.editDate;
+      }
+      if(cacheTimeValue != cv.editDate){
+        cv.extra = true;
+        cacheTimeValue = cv.editDate;
+      }
+      return cv;
+    })
+  }
+
+
 
   // 渲染函数
   const render = function(){
@@ -60,16 +92,19 @@ window.onload = function() {
     dataObj.forEach(cv => {
       // 构建 dl — mainObject
       resultA += `<dl class="${cv.actived ? 'activedDL' : ''}">
-        <dt index="${cv.id}">${cv.title}<span remove="true" class="dt-delete iconfont icon-close"></span></dt>
+        <dt index="${cv.id}">
+          <span class="iconfont icon-floder"></span>
+          ${cv.title}&nbsp;(${culateKeyValNum(cv.taskList, 'status', false)})
+          <span remove="true" class="dt-delete iconfont icon-close"></span>
+        </dt>
         ${makeDD(cv.taskList)}
       </dl>`
     });
 
-    cacheNum = 0;
-
     listEle.innerHTML = `
     <div class="list-content">
-      <span>总分类 (${culateKeyValNum(dataObj, 'status', false)}) </span>` 
+      <span>所有任务 (${culateKeyValNum(dataObj, 'status', false)}) </span>
+      <span>分类列表</span>` 
       + resultA + `
     </div>
     <div class="list-bottom" add='true'>
@@ -94,17 +129,32 @@ window.onload = function() {
     function makeDD(taskList){
       var cache = '';
       taskList.forEach(cv  => {
-        cacheNum = 0;
-        resultB += `<ul class="${cv.actived ? 'activedTT' : ''}">${makeTasks(cv.tasks)}</ul>`
-        cache += `<dd index="${cv.id}" class="${cv.actived ? 'activedDD' : ''}">${cv.listName}(${culateKeyValNum(cv.tasks, 'status', false)})</dd>`
+        resultB += `
+        <ul class="${cv.actived ? 'activedTT' : ''}">
+          ${makeTasks(cv.tasks)}
+        </ul>`
+
+        cache += `
+        <dd index="${cv.id}" class="${cv.actived ? 'activedDD' : ''}">
+          <span class="iconfont icon-file"></span>
+          ${cv.listName}&nbsp;(${culateKeyValNum(cv.tasks, 'status', false)})
+        </dd>`
       })
       return cache;
     }
 
     function makeTasks(tasks){
       var cache = '';
-      tasks.forEach(cv => {
-        cache += `<li status="${cv.status}" index="${cv.id}" class="${cv.actived ? 'activedTD' : ''}">${cv.title}</li>`
+      // 根据 editDate 排序
+      sortEditTime(tasks).forEach(cv => {
+        if(cv.extra){
+          cache += `<span>${cv.editDate}</span>`;
+        }
+        cache += `
+        <li status="${cv.status}" index="${cv.id}" class="${cv.actived ? 'activedTD' : ''}">
+          ${cv.title}
+        </li>`;
+
         if(cv.actived){
           detailContent.innerHTML = `
             <div class="con-header">
@@ -124,7 +174,6 @@ window.onload = function() {
       })
       return cache;
     }
-
     return;
   }
 
@@ -254,7 +303,6 @@ window.onload = function() {
     })
   }
 
-
   // 点击项目
   const actived = function(event){
     // 获取目标元素的id
@@ -270,9 +318,6 @@ window.onload = function() {
 
     // 编辑元素忽略 render
     if(nodeName == 'input' || nodeName == 'textarea') return;
-    // if(nodeName == 'div' && targetElement.getAttribute('contenteditable')) return;
-    // if(nodeName == 'div' && targetElement.parentNode.getAttribute('contenteditable')) return;
-
 
     // 完成项 + 编辑项 激活项 active 处理
     if(elementIndex && !elementAdd && !elementRemove && !elementShow){
@@ -314,6 +359,7 @@ window.onload = function() {
         setStatus(newList, ['actived'], [true]);
       }
 
+
     // 添加项目 处理
     } else if(elementAdd) {
       var type =  targetElement.nodeName.toLowerCase() == 'p' ? 
@@ -351,6 +397,7 @@ window.onload = function() {
       removeMainObj(index)
       setStatus(newList, ['actived'], [true]);
     
+
     // 展示项目 处理 
     } else if(elementShow){
       var type = targetElement.getAttribute('id').split('-')[1];
@@ -377,11 +424,13 @@ window.onload = function() {
       // 排序不刷新
       return;
     }
+
     render();
   }
 
-
+  // 添加事件处理
   document.documentElement.addEventListener('click', actived);
 
+  // 页面初始化
   render();
 };
