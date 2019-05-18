@@ -83,7 +83,6 @@ window.onload = function() {
   }
 
 
-
   // 渲染函数
   const render = function(){
     var resultA = '';
