@@ -1,7 +1,10 @@
 window.onload = function(){
+
+  let originPos = 0;
   
   // 渲染节点
-  const secOne = document.querySelector('#section-one'),
+  const parentCon = document.querySelector('.parent-content'),
+        secOne = document.querySelector('#section-one'),
         secTwo = document.querySelector('#section-two'),
         secThr = document.querySelector('#section-thr');
 
@@ -58,16 +61,88 @@ window.onload = function(){
     secOne.innerHTML = resultStr1;
     secTwo.innerHTML = resultStr2;
     secThr.innerHTML = resultStr3;
+  }
 
-    console.log(dataObj);
+  // 动画
+  const moveAnimate = (event) => {
+    // 0 - -100vw - -200vw
+    // 100vw - 0 -100vw
+    // 200vw - 100vw - 0
+
+    const baseLeft = parseInt(window.getComputedStyle(secOne).left);
+    const deviceWidth = document.documentElement.clientWidth;
+
+    if(!event){
+      // 增加 trainstion 过渡
+      Array.from(parentCon.children).forEach(cv => {
+        cv.classList.remove('child-trainsion1');
+        cv.classList.add('child-trainsion');
+      })
+
+      if(!baseLeft){
+        secOne.style.left = `-100vw`;
+        secTwo.style.left = `0px`;
+        secThr.style.left = `100vw`;
+      } else {
+        secOne.style.left = `-200vw`;
+        secTwo.style.left = `-100vw`;
+        secThr.style.left = `0`;
+      }
+    } else {
+      const touchPos = event.touches[0] ? event.touches[0].clientX : undefined,
+            secOneLeft = parseInt(window.getComputedStyle(secOne).left),
+            secTwoLeft = parseInt(window.getComputedStyle(secTwo).left),
+            secThrLeft = parseInt(window.getComputedStyle(secThr).left);
+
+      // 去除 trainstion 过渡
+      Array.from(parentCon.children).forEach(cv => {
+        cv.classList.add('child-trainsion1');
+      })
+
+      if(!originPos){
+        originPos = touchPos;
+      } else {
+        // touchmove event
+        // 若为从左往右移动，则赋值;
+        if(touchPos !== undefined){
+          if(touchPos - originPos > 10){
+            if(!baseLeft){
+              return;
+            } else {
+              secOne.style.left = secOneLeft + touchPos + 'px';
+              secTwo.style.left = secTwoLeft + touchPos + 'px';
+              secThr.style.left = secThrLeft + touchPos + 'px';
+            }
+          } else {
+            return;
+          }
+        // touchend event
+        // 根据边距判断是否回弹或位置变化;
+        } else {
+          if(!baseLeft){
+            return;
+          } else {
+            if(Math.abs(parseInt(secOne.style.left)) < deviceWidth / 3){
+              secOne.style.left = `0`;
+              secTwo.style.left = `100vw`;
+              secThr.style.left = `200vw`;
+            } else {
+              secOne.style.left = `-100vw`;
+              secTwo.style.left = `0`;
+              secThr.style.left = `100vw`;
+            }
+          }
+        }
+      }
+    }
   }
 
   // 思路
-  // 主要有两类 聚焦事件: 分类和任务
-  // 聚焦前者，后者默认给第一位为 actived
-  // 聚焦后者，搜索当前聚焦分类，在子类中遍历，并不用那么复杂
-  // 进去动画发生在 render 后；
-  // 退出动画直接退出，不能通过手势进入；
+  // 有两类聚焦事件: 分类、任务
+  // 聚焦前者，后者默认给第一位为 actived；
+  // 聚焦后者，搜索当前聚焦分类，直接在子类中遍历；
+  // render 后触发进入动画
+  // 手势触发退出动画，当；
 
   const activedOne = (event) => {
     const targetKey = event.target.getAttribute('key');
@@ -97,20 +172,15 @@ window.onload = function(){
     })
 
     render();
+
+    moveAnimate();
   }
-
-  secOne.addEventListener('click', activedOne)
-  secTwo.addEventListener('click', activedOne)
   
-
-
-
-  // 将对象所有 特定字段设置为 false
-
-
-  // 数据结构渲染
-  // 当前聚焦对象id，滑动即显示
-  // 滑动控制呈现，点击控制聚焦切换，切换不能触发渲染
-
   render();
+
+  secOne.addEventListener('click', activedOne);
+  secTwo.addEventListener('click', activedOne);
+
+  parentCon.addEventListener('touchmove', moveAnimate);
+  parentCon.addEventListener('touchend', moveAnimate);
 }

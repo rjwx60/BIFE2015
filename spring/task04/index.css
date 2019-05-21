@@ -13,31 +13,53 @@ li {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  width: 100vw;
   height: 100vh;
+  overflow: hidden;
+  position: relative;
 }
 .child-content{
-  flex: 1;
+  position: absolute;
+  width: 100vw;
   height: 100%;
+  top: 0px;
+}
+.child-trainsion{
+  transition: all .3s ease-in-out;
+}
+.child-trainsion1{
+  transition: all .1s ease-in-out;
 }
 #section-one{
-  background: orange;
+  background: #4d7aff;
+  left: 0px;
 }
 #section-two{
-  background: greenyellow;
+  background: #00b22d;
+  left: 100vw;
 }
 #section-thr{
-  background: peru;
+  background: #ff9326;
+  left: 200vw;
 }
-.child-content ul li{
-  background: #fff;
+.child-content ul li {
+  padding: 10px;
+  margin: 4px 0px;
+  font-size: 16px;
+  color: #000;
+}
+#section-one ul li {
+  background: #7d9eff;
+}
+#section-two ul li {
+  background: #00e83a;
 }
 
 /* 显示类样式 */
 .classActive{
-  background: red !important;
+  background: yellow !important;
 }
 .classNormal{
-  background: #fff !important;
 }
 .taskHide{
   position: absolute;
