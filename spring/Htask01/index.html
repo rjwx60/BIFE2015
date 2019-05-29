@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <form action="" id="form">
+    <input type="text" name="username" id="">
+    <input type="text" name="password" id="">
+  </form>
+  <script src="index.js"></script>
+  <script>
+    window.onload = function () {
+      const testObj = document.querySelector("input");
+      // testObj.value = 'haha';
+    }
+  </script>
+
+  <!-- Mutation Use -->
+  <!-- <script>
+    window.onload = function() {
+      const testObj = document.querySelector("input");
+
+      // Callback function to execute when mutations are observed
+      const mutationCallback = (mutationsList) => {
+        for (let mutation of mutationsList) {
+          let type = mutation.type;
+          switch (type) {
+            case "childList":
+              console.log("A child node has been added or removed.");
+              break;
+            case "attributes":
+              console.log(`The ${mutation.attributeName} attribute was modified.`);
+              break;
+            case "subtree":
+              console.log(`The subtree was modified.`);
+              break;
+            default:
+              console.log('hi');
+              break;
+          }
+        }
+      };
+
+      // Create an observer instance linked to the callback function
+      let observer = new MutationObserver(mutationCallback);
+
+      // Start observing the target node for configured mutations
+      // Options for the observer (which mutations to observe)
+      observer.observe(testObj, {
+        attributes: true,
+        childList: true,
+        subtree: true
+      });
+
+      // Later, you can stop observing
+      observer.disconnect();
+    }
+  </script> -->
+</body>
+</html>
